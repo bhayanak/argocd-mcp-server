@@ -1,0 +1,81 @@
+{
+  "name": "argocd-mcp-vscode-extension",
+  "displayName": "ArgoCD MCP Server",
+  "description": "VS Code extension that provides an MCP server for Argo CD — query deployments, sync apps, manage rollbacks through AI assistants",
+  "version": "0.1.0",
+  "publisher": "argocd-mcp",
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "AI",
+    "Chat"
+  ],
+  "icon": "logo.png",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "mcpServerDefinitionProviders": [
+      {
+        "id": "argocd-mcp-server",
+        "label": "ArgoCD MCP Server"
+      }
+    ],
+    "configuration": {
+      "title": "ArgoCD MCP Server",
+      "properties": {
+        "argocd.url": {
+          "type": "string",
+          "default": "",
+          "description": "Argo CD server URL (e.g., https://argocd.example.com)",
+          "order": 1
+        },
+        "argocd.token": {
+          "type": "string",
+          "default": "",
+          "description": "Argo CD API bearer token",
+          "order": 2
+        },
+        "argocd.insecure": {
+          "type": "boolean",
+          "default": false,
+          "description": "Skip TLS verification (for self-signed certificates)",
+          "order": 3
+        },
+        "argocd.timeoutMs": {
+          "type": "number",
+          "default": 30000,
+          "description": "API request timeout in milliseconds",
+          "order": 4
+        },
+        "argocd.maxLogLines": {
+          "type": "number",
+          "default": 500,
+          "description": "Maximum number of pod log lines to return",
+          "order": 5
+        },
+        "argocd.allowedProjects": {
+          "type": "string",
+          "default": "",
+          "description": "Comma-separated list of allowed Argo CD projects (empty = all)",
+          "order": 6
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node build.cjs",
+    "package": "node build.cjs && npx @vscode/vsce package --no-dependencies --allow-missing-repository --out argocd-mcp-0.1.0.vsix",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "@types/vscode": "^1.99.0",
+    "esbuild": "^0.21.0",
+    "typescript": "^5.6.0",
+    "@vscode/vsce": "^3.2.0"
+  },
+  "license": "MIT"
+}
